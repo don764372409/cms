@@ -179,7 +179,7 @@ public class TablesServlet extends BaseServlet{
 					outXML.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 					outXML.write("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\"\n");
 					outXML.write("\"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n");
-					outXML.write("<mapper namespace=\""+basePathName+".dao."+dto.getClassName()+"DAO\">\n");
+					outXML.write("<mapper namespace=\""+basePathName+".dao."+subPackage+"."+dto.getClassName()+"DAO\">\n");
 					outXML.write("\t<resultMap type=\""+dto.getClassName()+"\" id=\""+dto.getClassName()+"ResultMap\">\n");
 					for (int i = 0; i < dto.getColumns().size(); i++) {
 						if ("PRI".equals(dto.getColumns().get(i).getKey())) {
@@ -322,7 +322,7 @@ public class TablesServlet extends BaseServlet{
 					outXML.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 					outXML.write("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\"\n");
 					outXML.write("\"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n");
-					outXML.write("<mapper namespace=\""+basePathName+".dao."+dto.getClassName()+"DAO\">\n");
+					outXML.write("<mapper namespace=\""+basePathName+".dao."+dto.getSubPackage()+"."+dto.getClassName()+"DAO\">\n");
 					outXML.write("\t<resultMap type=\""+dto.getClassName()+"\" id=\""+dto.getClassName()+"ResultMap\">\n");
 					for (int i = 0; i < dto.getColumns().size(); i++) {
 						if ("PRI".equals(dto.getColumns().get(i).getKey())) {
