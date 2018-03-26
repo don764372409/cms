@@ -65,6 +65,7 @@ td:first-child{
 			4.如果MyBatis的映射文件不跟DAO在同路径,请单独配置MyBatis的映射文件路径<br>
 			5.点击一件生成<br>
 		</div>
+			${databaseName}
 		<div style="width: 800px;height: 720px;margin-top: 10px;border: 1px solid #e2e2e2;">
 			<div style="width: 800px;height: 650px;border-bottom: 1px solid #e2e2e2;overflow: auto;">
 				<table style="width: 770px;text-align: center;margin-top: 15px;" cellpadding="0" cellspacing="0">

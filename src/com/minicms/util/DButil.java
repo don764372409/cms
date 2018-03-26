@@ -27,7 +27,7 @@ public class DButil {
 				conn.close();
 			}
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://"+url+":"+port+"/"+dataBaseName, username, password);
+			conn = DriverManager.getConnection("jdbc:mysql://"+url+":"+port+"", username, password);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());

@@ -24,7 +24,6 @@ import com.minicms.service.MySqlService;
 import com.minicms.util.DBClassUtil;
 import com.minicms.util.DButil;
 import com.minicms.util.ZipUtil;
-
 @WebServlet("/tables")
 public class TablesServlet extends BaseServlet{
 	private static final long serialVersionUID = 1L;
@@ -66,8 +65,16 @@ public class TablesServlet extends BaseServlet{
 	            out.close(); 
 	            fis.close();
 	        }     
+		}else if("databases".equals(cmd)) {
+			List<String> dbs = mySqlService.getDatabases();
+			req.setAttribute("dbs", dbs);
+			req.getRequestDispatcher("/WEB-INF/databases.jsp").forward(req, resp);
 		}else {
+			String databaseName = req.getParameter("databaseName");
+			mySqlService.changeDatabase(databaseName);
+			DButil.dataBaseName = mySqlService.getDatabaseName();
 			List<String> tables = mySqlService.getTables();
+			req.setAttribute("databaseName", DButil.dataBaseName);
 			req.setAttribute("tables", tables);
 			req.getRequestDispatcher("/WEB-INF/tables.jsp").forward(req, resp);
 		}

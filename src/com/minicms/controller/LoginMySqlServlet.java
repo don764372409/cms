@@ -22,12 +22,10 @@ public class LoginMySqlServlet extends BaseServlet{
 		if ("loginMySql".equals(cmd)) {
 			String url = req.getParameter("url");
 			String port = req.getParameter("port");
-			String databaseName = req.getParameter("databaseName");
 			String username = req.getParameter("username");
 			String password = req.getParameter("password");
 			DButil.url=url;
 			DButil.port=port;
-			DButil.dataBaseName=databaseName;
 			DButil.username=username;
 			DButil.password=password;
 			ResultDTO dto = null;
@@ -42,7 +40,7 @@ public class LoginMySqlServlet extends BaseServlet{
 			}
 			putJSON(resp, dto);
 		}else {
-			resp.sendRedirect("loginMySql.jsp");
+			resp.sendRedirect("/loginMySql");
 		}
 	}
 }

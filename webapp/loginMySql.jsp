@@ -16,13 +16,12 @@
 		$.post("/loginMySql?cmd=loginMySql",{
 			"url":$("input[name=url]").val(),
 			"port":$("input[name=port]").val(),
-			"databaseName":$("input[name=databaseName]").val(),
 			"username":$("input[name=username]").val(),
 			"password":$("input[name=password]").val()},
 			function(data){
 				alert(data.message);
 				if(data.result){
-					location.href="/tables";
+					location.href="/tables?cmd=databases";
 				}
 			}
 		);
@@ -45,10 +44,6 @@
 				<tr>
 					<td>端口:</td>
 					<td><input placeholder="3306" value="3306" type="number" name="port"></td>
-				</tr>
-				<tr>
-					<td>数据库名:</td>
-					<td><input placeholder="数据库名称database" name="databaseName" value="springboot"></td>
 				</tr>
 				<tr>
 					<td>账号:</td>
