@@ -81,7 +81,7 @@ public class MySqlService {
 		List<CMSColumn> list = new ArrayList<>();
 		ColumnClassDTO dto = new ColumnClassDTO();
 		try { 
-			String sql = "SELECT COLUMN_NAME,COLUMN_KEY,DATA_TYPE FROM `information_schema`.`columns`" + 
+			String sql = "SELECT COLUMN_NAME,COLUMN_KEY,DATA_TYPE,COLUMN_COMMENT FROM `information_schema`.`columns`" + 
 					"WHERE `table_schema` = ?" + "AND `table_name` = ?;";
 			PreparedStatement state = DButil.getConn().prepareStatement(sql);
 			state.setObject(1, DButil.dataBaseName);
@@ -92,6 +92,7 @@ public class MySqlService {
 				filed.setKey(query.getString("COLUMN_KEY"));
 				filed.setName(query.getString("COLUMN_NAME"));
 				filed.setType(query.getString("DATA_TYPE"));
+				filed.setComent(query.getString("COLUMN_COMMENT"));
 				list.add(filed);
 			}
 			dto.setTableName(tableName);

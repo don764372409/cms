@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,9 @@ import com.minicms.dto.ResultDTO;
 import com.minicms.service.MySqlService;
 import com.minicms.util.DBClassUtil;
 import com.minicms.util.DButil;
+import com.minicms.util.FileUtil;
 import com.minicms.util.ZipUtil;
+import com.mysql.jdbc.StringUtils;
 @WebServlet("/tables")
 public class TablesServlet extends BaseServlet{
 	private static final long serialVersionUID = 1L;
@@ -49,7 +52,8 @@ public class TablesServlet extends BaseServlet{
 			req.getRequestDispatcher("/WEB-INF/down.jsp").forward(req, resp);
 		}else if("downFile".equals(cmd)){
 			String path = req.getRealPath("/cms_zip");
-			File f = new File(path+"/9527CMS.zip");
+			String fileName = (String)req.getSession().getAttribute("fileName");
+			File f = new File(path+"/"+fileName+".zip");
 	        if(f.exists()){  
 	            FileInputStream  fis = new FileInputStream(f);  
 	            String filename=URLEncoder.encode(f.getName(),"utf-8"); //解决中文文件名下载后乱码的问题  
@@ -84,9 +88,14 @@ public class TablesServlet extends BaseServlet{
 		try {
 			String basePathName = req.getParameter("basePathName");
 			String mapperPathName = req.getParameter("mapperPathName");
+			File file = new File("C://9527CMS");
+			if (file.exists()) {
+				//删除
+				FileUtil.deleteAllFiles(file);
+			}
 			//开始生成公共包路径
 			String basePath = "C://9527CMS/"+basePathName.replace(".", "/");
-			File file = new File(basePath);
+			file = new File(basePath);
 			if (!file.exists()) {
 				file.mkdirs();
 			}
@@ -132,7 +141,12 @@ public class TablesServlet extends BaseServlet{
 					String type = clz.getType();
 					int index = type.lastIndexOf(".");
 					type = type.substring(index+1, type.length());
-					out.write("\tprivate "+type+" "+clz.getName()+";\n");
+					//是否有注释
+					if (StringUtils.isNullOrEmpty(clz.getComent())) {
+						out.write("\tprivate "+type+" "+clz.getName()+";\n");
+					}else {
+						out.write("\tprivate "+type+" "+clz.getName()+";//"+clz.getComent()+"\n");
+					}
 				}
 				//方法
 				for (CMSClass clz : classes) {
@@ -423,7 +437,9 @@ public class TablesServlet extends BaseServlet{
 		}
 		try {
 			String path = req.getRealPath("/cms_zip");
-			ZipUtil.toZip("C://9527CMS", new FileOutputStream(new File(path+"/9527CMS.zip")), true);
+			String fileName = new Date().getTime()+"";
+			ZipUtil.toZip("C://9527CMS", new FileOutputStream(new File(path+"/"+fileName+".zip")), true);
+			req.getSession().setAttribute("fileName", fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			result = ResultDTO.newInStrance(e.getMessage(),false);
@@ -494,6 +510,7 @@ public class TablesServlet extends BaseServlet{
 				clz.setName(col.getName());
 				clz.setType(DBClassUtil.convterType(col.getType()));
 				clzes.add(clz);
+				clz.setComent(col.getComent());
 			}
 			dto.setClasses(clzes);
 			DBClassUtil.list.add(dto);

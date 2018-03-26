@@ -41,6 +41,33 @@ td:first-child{
 		$("input[name=className]").val(str);
 		//子包名
 		$("#subPackage").val($("input[name=className]").val().toLowerCase());
+		//全选框
+		$("thead input[type=checkbox]").change(function(){
+			if($("thead input[type=checkbox]")[0].checked){
+				$("tbody input[type=checkbox]").each(function(index,item){
+					item.checked = true;
+				});
+			}else{
+				$("tbody input[type=checkbox]").each(function(index,item){
+					item.checked = false;
+				});
+			}
+		});
+		if($("thead input[type=checkbox]")[0].checked){
+			$("tbody input[type=checkbox]").each(function(index,item){
+				item.checked = true;
+			});
+		}
+		//每一个项中的checkbox
+		$("tbody input[type=checkbox]").change(function(){
+			var flag = true;
+			$("tbody input[type=checkbox]").each(function(index,item){
+				if (!item.checked) {
+					flag = false;
+				}
+			});
+			$("thead input[type=checkbox]")[0].checked = flag;
+		});
 	})
 	function subPackage(value){
 		$("#subPackage").val(value.toLowerCase());
@@ -100,20 +127,23 @@ td:first-child{
 			<table style="width: 770px;text-align: center;margin-top: 15px;" cellpadding="0" cellspacing="0">
 				<thead>
 				<tr>
-					<th width="25%">字段名称</th>
-					<th width="25%">字段类型</th>
-					<th width="25%">属性名称</th>
-					<th width="25%">属性类型</th>
+					<th width="5%"><input type="checkbox" checked="checked"></th>
+					<th width="19%">字段名称</th>
+					<th width="19%">字段类型</th>
+					<th width="19%">属性名称</th>
+					<th width="19%">属性类型</th>
+					<th width="19%">注释</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td colspan="5">
+					<td colspan="6">
 						<a href="javascript:void(0)" onclick="tableMapper()" style="padding:5px 10px;width:100px;border: 1px solid #e2e2e2;color: white;height:35px;line-height:35px;text-decoration: none;border-radius:5px;background: #ff6600;">保存配置</a>
 					</td>
 				</tr>
 				<c:forEach items="${dto.columns}" var="column">
 				<tr>
+					<td><input type="checkbox"></td>
 					<td>${column.name}</td>
 					<td>${column.type}</td>
 					<td><input name="filedName" value="${column.name}"></td>
@@ -143,6 +173,7 @@ td:first-child{
 							<input readonly="readonly" name="type" value="java.math.BigDecimal">
 						</c:if>
 					</td>
+					<td>${column.coment}</td>
 				</tr>
 				</c:forEach>
 				</tbody>

@@ -33,7 +33,7 @@ public class LoginMySqlServlet extends BaseServlet{
 				DButil.login();
 				//重新登录,清空表数据
 				DBClassUtil.list = new ArrayList<>();
-				dto = ResultDTO.newInStrance("登录成功!跳转数据表列表页面!",true);
+				dto = ResultDTO.newInStrance("登录成功!跳转数据库列表页面!",true);
 			} catch (Exception e) {
 				e.printStackTrace();
 				dto = ResultDTO.newInStrance(e.getMessage(),false);

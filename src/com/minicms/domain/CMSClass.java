@@ -3,6 +3,14 @@ package com.minicms.domain;
 public class CMSClass {
 	private String name;//属性名称
 	private String type;//属性类型
+	private String coment;//属性注释
+	
+	public String getComent() {
+		return coment;
+	}
+	public void setComent(String coment) {
+		this.coment = coment;
+	}
 	public String getName() {
 		return name;
 	}
@@ -17,6 +25,6 @@ public class CMSClass {
 	}
 	@Override
 	public String toString() {
-		return "CMSClass [name=" + name + ", type=" + type + "]";
+		return "CMSClass [name=" + name + ", type=" + type + ", coment=" + coment + "]";
 	}
 }

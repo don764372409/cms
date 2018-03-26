@@ -29,11 +29,38 @@ td:first-child{
 	$(function(){
 		//页面加载完成后去获取所有表的字段
 		$.post("/tables?cmd=allFileds");
+		//全选框
+		$("thead input[type=checkbox]").change(function(){
+			if($("thead input[type=checkbox]")[0].checked){
+				$("tbody input[type=checkbox]").each(function(index,item){
+					item.checked = true;
+				});
+			}else{
+				$("tbody input[type=checkbox]").each(function(index,item){
+					item.checked = false;
+				});
+			}
+		});
+		if($("thead input[type=checkbox]")[0].checked){
+			$("tbody input[type=checkbox]").each(function(index,item){
+				item.checked = true;
+			});
+		}
+		//每一个项中的checkbox
+		$("tbody input[type=checkbox]").change(function(){
+			var flag = true;
+			$("tbody input[type=checkbox]").each(function(index,item){
+				if (!item.checked) {
+					flag = false;
+				}
+			});
+			$("thead input[type=checkbox]")[0].checked = flag;
+		});
 	})
 	function tableMapper(el,name){
 		layer.open({
 		      type: 2,
-		      title: 'iframe父子操作',
+		      title: '列-字段映射配置',
 		      maxmin: true,
 		      shadeClose: true, //点击遮罩关闭层
 		      area: ['850px', '700px'],
@@ -71,13 +98,15 @@ td:first-child{
 				<table style="width: 770px;text-align: center;margin-top: 15px;" cellpadding="0" cellspacing="0">
 					<thead>
 					<tr>
-						<th width="80%">表名</th>
+						<th width="5%"><input type="checkbox" checked="checked"></th>
+						<th width="75%">表名</th>
 						<th width="20%">操作</th>
 					</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${tables}" var="name">
 							<tr>
+								<td><input type="checkbox"></td>
 								<td>${name}</td>
 								<td>
 									<a href="javascript:void(0)" onclick="tableMapper(this,'${name}')" style="padding:5px 10px;width:100px;border: 1px solid #e2e2e2;color: white;height:35px;line-height:35px;text-decoration: none;border-radius:5px;background: #ff6600;">映射配置</a>
@@ -89,7 +118,7 @@ td:first-child{
 			</div>
 			<div style="margin-top: 5px;">
 				<input placeholder="请输入公共包路径" name="basePathName">
-				<input placeholder="如果映射文件不在模型包下请输入映射文件路径" name="mapperPathName" style="width: 300px;"><br>
+				<input placeholder="如果映射文件不在模型包下,请输入映射文件路径" name="mapperPathName" style="width: 300px;"><br>
 				<a href="javascript:void(0)" onclick="createCMS()" style="padding:5px 10px;width:100px;border: 1px solid #e2e2e2;color: white;height:35px;line-height:35px;text-decoration: none;border-radius:5px;background: #ff6600;">开始生成</a>
 			</div>
 		</div>

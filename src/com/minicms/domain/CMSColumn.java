@@ -1,6 +1,6 @@
 package com.minicms.domain;
 /**
- * SELECT COLUMN_NAME,COLUMN_KEY,DATA_TYPE FROM `information_schema`.`columns`
+ * SELECT COLUMN_NAME,COLUMN_KEY,DATA_TYPE,,COLUMN_COMMENT FROM `information_schema`.`columns`
 WHERE `table_schema` = 'springboot'
 AND `table_name` = 't_user';
  */
@@ -8,6 +8,14 @@ public class CMSColumn {
 	private String name;//字段名称
 	private String type;//字段类型
 	private String key;//主键或外键 PRI--主键  MUL--外键
+	private String coment;//注释
+	
+	public String getComent() {
+		return coment;
+	}
+	public void setComent(String coment) {
+		this.coment = coment;
+	}
 	public String getName() {
 		return name;
 	}
