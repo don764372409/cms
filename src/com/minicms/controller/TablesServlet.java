@@ -63,7 +63,8 @@ public class TablesServlet extends BaseServlet{
 	            //输出  
 	            out.write(b);  
 	            out.flush();  
-	            out.close();  
+	            out.close(); 
+	            fis.close();
 	        }     
 		}else {
 			List<String> tables = mySqlService.getTables();
@@ -154,9 +155,16 @@ public class TablesServlet extends BaseServlet{
 						outDAO.write("import "+clz.getType()+";\n"); 
 					}
 				}
-				outDAO.write("import "+basePathName+".domain."+subPackage+"."+dto.getClassName()+";\n"); 
+				outDAO.write("import "+basePathName+".domain."+subPackage+"."+dto.getClassName()+";\n");
+				//SpringBoot的两个注解
+				outDAO.write("import org.apache.ibatis.annotations.Mapper;\n");
+				outDAO.write("import org.springframework.stereotype.Repository;\n");
+				
 				outDAO.write("import java.util.List;\n"); 
 				
+				//SpringBoot的两个注解
+				outDAO.write("@Mapper\n"); 
+				outDAO.write("@Repository\n"); 
 				//类名
 				outDAO.write("public interface "+className+"DAO{\n"); 
 				//方法
