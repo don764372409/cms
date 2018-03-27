@@ -128,10 +128,13 @@ public class TablesServlet extends BaseServlet{
 				FileWriter out = new FileWriter(file, true);
 				//公共包
 				out.write("package "+basePathName+".domain."+subPackage+";\n");
+				List<String> imports = new ArrayList<>();
 				//导入包
 				for (CMSClass clz : classes) {
-					if (!clz.getType().contains("java.lang.")) {
-						out.write("import "+clz.getType()+";\n"); 
+					String type = clz.getType();
+					if (!type.contains("java.lang.")&&!imports.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
+						out.write("import "+type+";\n");
+						imports.add(type);
 					}
 				}
 				//类名
@@ -171,9 +174,13 @@ public class TablesServlet extends BaseServlet{
 				//公共包
 				outDAO.write("package "+basePathName+".dao."+subPackage+";\n");
 				//导入包
+				List<String> imports2 = new ArrayList<>();
+				//导入包
 				for (CMSClass clz : classes) {
-					if (!clz.getType().contains("java.lang.")) {
-						outDAO.write("import "+clz.getType()+";\n"); 
+					String type = clz.getType();
+					if (!type.contains("java.lang.")&&!imports2.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
+						outDAO.write("import "+type+";\n");
+						imports2.add(type);
 					}
 				}
 				outDAO.write("import "+basePathName+".domain."+subPackage+"."+dto.getClassName()+";\n");
@@ -296,9 +303,13 @@ public class TablesServlet extends BaseServlet{
 				//公共包
 				outService.write("package "+basePathName+".service."+subPackage+";\n");
 				//导入包
+				List<String> imports3 = new ArrayList<>();
+				//导入包
 				for (CMSClass clz : classes) {
-					if (!clz.getType().contains("java.lang.")) {
-						outService.write("import "+clz.getType()+";\n"); 
+					String type = clz.getType();
+					if (!type.contains("java.lang.")&&!imports3.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
+						outService.write("import "+type+";\n");
+						imports3.add(type);
 					}
 				}
 				outService.write("import "+basePathName+".domain."+subPackage+"."+dto.getClassName()+";\n"); 
@@ -433,6 +444,7 @@ public class TablesServlet extends BaseServlet{
 				}
 			result = ResultDTO.newInStrance("生成成功,共:"+DBClassUtil.list.size()+"张表数据",true);
 		} catch (Exception e) {
+			e.printStackTrace();
 			result = ResultDTO.newInStrance("生成失败,请稍后重试.",false);
 		}
 		try {
