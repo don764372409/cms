@@ -175,14 +175,14 @@ public class TablesServlet extends BaseServlet{
 				outDAO.write("package "+basePathName+".dao."+subPackage+";\n");
 				//导入包
 				List<String> imports2 = new ArrayList<>();
-				//导入包
-				for (CMSClass clz : classes) {
-					String type = clz.getType();
-					if (!type.contains("java.lang.")&&!imports2.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
-						outDAO.write("import "+type+";\n");
-						imports2.add(type);
-					}
-				}
+//				//导入包
+//				for (CMSClass clz : classes) {
+//					String type = clz.getType();
+//					if (!type.contains("java.lang.")&&!imports2.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
+//						outDAO.write("import "+type+";\n");
+//						imports2.add(type);
+//					}
+//				}
 				outDAO.write("import "+basePathName+".domain."+subPackage+"."+dto.getClassName()+";\n");
 				//SpringBoot的两个注解
 				outDAO.write("import org.apache.ibatis.annotations.Mapper;\n");
@@ -305,13 +305,13 @@ public class TablesServlet extends BaseServlet{
 				//导入包
 				List<String> imports3 = new ArrayList<>();
 				//导入包
-				for (CMSClass clz : classes) {
-					String type = clz.getType();
-					if (!type.contains("java.lang.")&&!imports3.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
-						outService.write("import "+type+";\n");
-						imports3.add(type);
-					}
-				}
+//				for (CMSClass clz : classes) {
+//					String type = clz.getType();
+//					if (!type.contains("java.lang.")&&!imports3.contains(type)&&!type.contains("int")&&!type.contains("float")&&!type.contains("double")) {
+//						outService.write("import "+type+";\n");
+//						imports3.add(type);
+//					}
+//				}
 				outService.write("import "+basePathName+".domain."+subPackage+"."+dto.getClassName()+";\n"); 
 				outService.write("import "+basePathName+".dao."+subPackage+"."+dto.getClassName()+"DAO;\n"); 
 				outService.write("import org.springframework.stereotype.Service;\n"); 
