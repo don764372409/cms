@@ -141,6 +141,7 @@ public class TablesServlet extends BaseServlet{
 				out.write("public class "+className+"{\n"); 
 				//属性
 				for (CMSClass clz : classes) {
+					System.err.println(clz);
 					String type = clz.getType();
 					int index = type.lastIndexOf(".");
 					type = type.substring(index+1, type.length());
@@ -196,11 +197,11 @@ public class TablesServlet extends BaseServlet{
 				//类名
 				outDAO.write("public interface "+className+"DAO{\n"); 
 				//方法
-				outDAO.write("\tint insert("+dto.getClassName()+" obj);\n"); 
-				outDAO.write("\tint update("+dto.getClassName()+" obj);\n"); 
-				outDAO.write("\tint delete(Long id);\n"); 
-				outDAO.write("\t"+dto.getClassName()+" selectOneById(Long id);\n"); 
-				outDAO.write("\tList<"+dto.getClassName()+"> selectAll();\n"); 
+				outDAO.write("\tint insert("+dto.getClassName()+" obj);\n\n"); 
+				outDAO.write("\tint update("+dto.getClassName()+" obj);\n\n"); 
+				outDAO.write("\tint delete(Long id);\n\n"); 
+				outDAO.write("\t"+dto.getClassName()+" selectOneById(Long id);\n\n"); 
+				outDAO.write("\tList<"+dto.getClassName()+"> selectAll();\n\n"); 
 				outDAO.write("}");
 				outDAO.close();
 				//生成映射文件
@@ -316,31 +317,32 @@ public class TablesServlet extends BaseServlet{
 				outService.write("import "+basePathName+".dao."+subPackage+"."+dto.getClassName()+"DAO;\n"); 
 				outService.write("import org.springframework.stereotype.Service;\n"); 
 				outService.write("import org.springframework.beans.factory.annotation.Autowired;\n"); 
+				outService.write("import import org.springframework.transaction.annotation.Transactional;\n"); 
 				outService.write("import java.util.List;\n"); 
 				
 				//类名
 				outService.write("@Service\npublic class "+className+"Service{\n");
 				outService.write("\t@Autowired\n\tprivate "+dto.getClassName()+"DAO "+(new StringBuilder()).append(Character.toLowerCase(dto.getClassName().charAt(0))).append(dto.getClassName().substring(1)).toString()+"DAO;");
 				//方法
-				outService.write("\n\tpublic int insert("+dto.getClassName()+" obj){\n"); 
+				outService.write("\n\t@Transactional\n\tpublic int insert("+dto.getClassName()+" obj){\n"); 
 				outService.write("\t\treturn "+(new StringBuilder()).append(Character.toLowerCase(dto.getClassName().charAt(0))).append(dto.getClassName().substring(1)).toString()+"DAO.insert(obj);"+"\n"); 
-				outService.write("\t}\n"); 
+				outService.write("\t}\n\n"); 
 				
-				outService.write("\n\tpublic int update("+dto.getClassName()+" obj){\n"); 
+				outService.write("\n\t@Transactional\n\tpublic int update("+dto.getClassName()+" obj){\n"); 
 				outService.write("\t\treturn "+(new StringBuilder()).append(Character.toLowerCase(dto.getClassName().charAt(0))).append(dto.getClassName().substring(1)).toString()+"DAO.update(obj);"+"\n"); 
-				outService.write("\t}\n"); 
+				outService.write("\t}\n\n"); 
 				
-				outService.write("\n\tpublic int delete(Long id){\n"); 
+				outService.write("\n\t@Transactional\n\tpublic int delete(Long id){\n"); 
 				outService.write("\t\treturn "+(new StringBuilder()).append(Character.toLowerCase(dto.getClassName().charAt(0))).append(dto.getClassName().substring(1)).toString()+"DAO.delete(id);"+"\n"); 
-				outService.write("\t}\n"); 
+				outService.write("\t}\n\n"); 
 				
 				outService.write("\n\tpublic "+dto.getClassName()+" selectOneById(Long id){\n"); 
 				outService.write("\t\treturn "+(new StringBuilder()).append(Character.toLowerCase(dto.getClassName().charAt(0))).append(dto.getClassName().substring(1)).toString()+"DAO.selectOneById(id);"+"\n"); 
-				outService.write("\t}\n"); 
+				outService.write("\t}\n\n"); 
 				
 				outService.write("\n\tpublic List<"+dto.getClassName()+"> selectAll(){\n"); 
 				outService.write("\t\treturn "+(new StringBuilder()).append(Character.toLowerCase(dto.getClassName().charAt(0))).append(dto.getClassName().substring(1)).toString()+"DAO.selectAll();"+"\n"); 
-				outService.write("\t}\n"); 
+				outService.write("\t}\n\n"); 
 				outService.write("}");
 				outService.close();
 			}
@@ -521,8 +523,8 @@ public class TablesServlet extends BaseServlet{
 				CMSClass clz = new CMSClass();
 				clz.setName(col.getName());
 				clz.setType(DBClassUtil.convterType(col.getType()));
-				clzes.add(clz);
 				clz.setComent(col.getComent());
+				clzes.add(clz);
 			}
 			dto.setClasses(clzes);
 			DBClassUtil.list.add(dto);
