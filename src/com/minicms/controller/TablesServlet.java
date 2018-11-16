@@ -317,7 +317,7 @@ public class TablesServlet extends BaseServlet{
 				outService.write("import "+basePathName+".dao."+subPackage+"."+dto.getClassName()+"DAO;\n"); 
 				outService.write("import org.springframework.stereotype.Service;\n"); 
 				outService.write("import org.springframework.beans.factory.annotation.Autowired;\n"); 
-				outService.write("import import org.springframework.transaction.annotation.Transactional;\n"); 
+				outService.write("import org.springframework.transaction.annotation.Transactional;\n"); 
 				outService.write("import java.util.List;\n"); 
 				
 				//¿‡√˚
